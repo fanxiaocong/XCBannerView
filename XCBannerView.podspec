@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "XCBannerView"
-  s.version      = "1.0.2"
+  s.version      = "1.0.3"
   s.summary      = "Banner"
 
   s.description  = "Banner自定义无限轮播视图"
@@ -17,9 +17,10 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/fanxiaocong/XCBannerView.git", :tag => s.version }
 
 
-  s.frameworks   =  'UIKit'
-  s.source_files  = "XCBannerView"
+  s.source_files = "XCBannerView"
   s.requires_arc = true
+  s.platform     = :ios, "8.0"
+  s.frameworks   =  'UIKit'
 
 end
 
