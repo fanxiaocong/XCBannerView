@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "XCBannerView"
-  s.version      = "1.0.3"
+  s.version      = "1.0.4"
   s.summary      = "Banner"
 
   s.description  = "Banner自定义无限轮播视图"
