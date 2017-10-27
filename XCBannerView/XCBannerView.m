@@ -128,7 +128,7 @@ static NSString * const identifier = @"identifier";
 {
     if (self.isNeedRefresh)
     {
-        if (self.imgURLs.count || self.imgNames.count)
+        if (self.imgURLs.count || self.images.count)
         {
             //最左边一张图其实是最后一张图，因此移动到第二张图，也就是imageURL的第一个URL的图。
             [self scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:1 inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
@@ -159,17 +159,17 @@ static NSString * const identifier = @"identifier";
     _needRefresh = YES;
 }
 
-- (void)setImgNames:(NSArray<NSString *> *)imgNames
+- (void)setImages:(NSArray<UIImage *> *)images
 {
-    _imgNames = imgNames;
+    _images = images;
     
-    if ([imgNames count])
+    if ([images count])
     {
         NSMutableArray *arr = [NSMutableArray array];
-        [arr addObject:[imgNames lastObject]];
-        [arr addObjectsFromArray:imgNames];
-        [arr addObject:[imgNames firstObject]];
-        _imgNames = [NSArray arrayWithArray:arr];
+        [arr addObject:[images lastObject]];
+        [arr addObjectsFromArray:images];
+        [arr addObject:[images firstObject]];
+        _images = [NSArray arrayWithArray:arr];
     }
     
     [self reloadData];
@@ -181,7 +181,7 @@ static NSString * const identifier = @"identifier";
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    NSInteger count = self.imgNames.count ?: self.imgURLs.count;
+    NSInteger count = self.images.count ?: self.imgURLs.count;
     
     return MAX(count, 1);
 }
@@ -190,18 +190,19 @@ static NSString * const identifier = @"identifier";
 {
     XCBannerCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     
-    if (self.imgNames.count > indexPath.row)
+    if (self.images.count > indexPath.row)
     {
-        NSString *imgName = self.imgNames[indexPath.item];
-        
-        cell.imgView.image = [UIImage imageNamed:imgName];
+        cell.imgView.image = self.images[indexPath.item];
                 
     }
     else if (self.imgURLs.count > indexPath.row)
     {
-        // NSString *urlStr = self.imgURLs[indexPath.item];
+        NSString *urlStr = self.imgURLs[indexPath.item];
         
-        // [cell.imgView sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:[UIImage imageNamed:self.placeholderImgName]];
+        if (self.configureCellWebImage)
+        {
+            self.configureCellWebImage(cell.imgView, [NSURL URLWithString:urlStr]);
+        }
     }
     else
     {
@@ -218,7 +219,7 @@ static NSString * const identifier = @"identifier";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSUInteger page = 0;
-    NSUInteger lastIndex = (self.imgNames.count) ? (self.imgNames.count - 3) : (self.imgURLs.count - 3);
+    NSUInteger lastIndex = (self.images.count) ? (self.images.count - 3) : (self.imgURLs.count - 3);
     
     if (indexPath.item == 0)
     {
@@ -298,7 +299,7 @@ static NSString * const identifier = @"identifier";
 // 移动到 下一个 cell
 - (void)moveToNextCell
 {
-    if (self.imgURLs.count || self.imgNames.count)
+    if (self.imgURLs.count || self.images.count)
     {
         NSIndexPath *currentIndexPath = [self indexPathForItemAtPoint:self.contentOffset];
         
@@ -313,7 +314,7 @@ static NSString * const identifier = @"identifier";
 
 - (void)jumpToLastImage
 {
-    NSInteger count = self.imgNames.count ? (self.imgNames.count - 2) : (self.imgURLs.count - 2);
+    NSInteger count = self.images.count ? (self.images.count - 2) : (self.imgURLs.count - 2);
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:count inSection:0];
     [self scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
@@ -327,7 +328,7 @@ static NSString * const identifier = @"identifier";
 
 - (void)jumpWithContentOffset:(CGPoint)contentOffset
 {
-    NSInteger count = self.imgNames.count ? self.imgNames.count : self.imgURLs.count;
+    NSInteger count = self.images.count ? self.images.count : self.imgURLs.count;
 
     //向左滑动时切换imageView
     if (contentOffset.x <= 0)
@@ -393,19 +394,6 @@ static NSString * const identifier = @"identifier";
 }
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

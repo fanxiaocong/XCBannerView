@@ -10,6 +10,10 @@
 
 #import "XCBannerView.h"
 
+
+#define IMAGENAMED(imageName)   [UIImage imageNamed:imageName]
+
+
 @interface ViewController ()
 
 @end
@@ -27,9 +31,9 @@
 {
     self.view.backgroundColor = [UIColor lightGrayColor];
     
-    XCBannerView *banner = [[XCBannerView alloc] initWithFrame:CGRectMake(0, 200, 300, 200)];
+    XCBannerView *banner = [[XCBannerView alloc] initWithFrame:CGRectMake(0, 200, self.view.bounds.size.width, 200)];
     
-    banner.imgNames = @[@"1.jpg", @"2.jpg", @"3.jpg", @"4.jpg", @"5.jpg"];
+    banner.images = @[IMAGENAMED(@"1.jpg"), IMAGENAMED(@"2.jpg"), IMAGENAMED(@"3.jpg"), IMAGENAMED(@"4.jpg"), IMAGENAMED(@"5.jpg")];
     
     banner.didClickBannerCellHandel = ^(XCBannerCell *cell, NSInteger index){
         

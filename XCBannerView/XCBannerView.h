@@ -28,6 +28,9 @@
 /** 👀 移动到某一个 cell(会调用多次) 👀 */
 @property (copy, nonatomic) void(^didMoveToCell)(XCBannerCell *cell, NSInteger index);
 
+/** 👀 配置 cell 的网络图片 👀 */
+@property (copy, nonatomic) void(^configureCellWebImage)(UIImageView *imageView, NSURL *URL);
+
 /** 👀 占位图片名 👀 */
 @property (copy, nonatomic) NSString *placeholderImgName;
 
@@ -40,9 +43,8 @@
 /** 👀 图片的 URL 数组 👀 */
 @property (strong, nonatomic) NSArray<NSString *> *imgURLs;
 
-/** 👀 图片的名称数组 👀 */
-@property (strong, nonatomic) NSArray<NSString *> *imgNames;
-
+/** 👀 图片数组 👀 */
+@property (strong, nonatomic) NSArray<UIImage *> *images;
 
 
 /**
@@ -56,20 +58,5 @@
 - (void)stopMoving;
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
